@@ -1,2 +1,77 @@
 // Place here the transaction data array. Use it in your application as needed.
-const transactions = [];
+const transactions = [
+  {
+    id: 1,
+    type: 'income',
+    category: 'salary',
+    amount: 3000,
+    description: 'Monthly salary',
+    date: '2025-01-15',
+  },
+  {
+    id: 2,
+    type: 'expense',
+    category: 'groceries',
+    amount: 120,
+    description: 'Weekly supermarket shopping',
+    date: '2025-01-16',
+  },
+  {
+    id: 3,
+    type: 'expense',
+    category: 'transport',
+    amount: 45,
+    description: 'Monthly public transport pass',
+    date: '2025-01-17',
+  },
+  {
+    id: 4,
+    type: 'income',
+    category: 'freelance',
+    amount: 600,
+    description: 'Freelance web project',
+    date: '2025-01-20',
+  },
+  {
+    id: 5,
+    type: 'expense',
+    category: 'entertainment',
+    amount: 75,
+    description: 'Concert tickets',
+    date: '2025-01-21',
+  },
+  {
+    id: 6,
+    type: 'expense',
+    category: 'utilities',
+    amount: 150,
+    description: 'Electricity and water bill',
+    date: '2025-01-22',
+  },
+  {
+    id: 7,
+    type: 'income',
+    category: 'gift',
+    amount: 200,
+    description: 'Birthday gift from family',
+    date: '2025-01-23',
+  },
+  {
+    id: 8,
+    type: 'expense',
+    category: 'health',
+    amount: 90,
+    description: 'Doctor appointment',
+    date: '2025-01-24',
+  },
+  {
+    id: 9,
+    type: 'expense',
+    category: 'education',
+    amount: 300,
+    description: 'Online course fee',
+    date: '2025-01-25',
+  },
+];
+
+export default transactions;
