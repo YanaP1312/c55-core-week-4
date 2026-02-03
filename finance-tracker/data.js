@@ -70,6 +70,14 @@ const transactions = [
     category: 'education',
     amount: 300,
     description: 'Online course fee',
+    date: '2025-03-15',
+  },
+  {
+    id: 10,
+    type: 'expense',
+    category: 'education',
+    amount: 135,
+    description: 'Online course fee',
     date: '2025-03-25',
   },
 ];

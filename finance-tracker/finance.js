@@ -174,3 +174,31 @@ export function groupTransactionByMonth(transactions) {
 
   return groupedTransactions;
 }
+
+export function calculateAverageExpensesPerCategory(transactions) {
+  const expenses = transactions.filter(
+    (transaction) => transaction.type === 'expense'
+  );
+
+  let expenseCategories = {};
+
+  for (const transaction of expenses) {
+    const { category, amount } = transaction;
+
+    if (!expenseCategories[category]) {
+      expenseCategories[category] = { total: 0, count: 0 };
+    }
+
+    expenseCategories[category].total += amount;
+    expenseCategories[category].count += 1;
+  }
+
+  let averages = {};
+
+  for (const category in expenseCategories) {
+    const { total, count } = expenseCategories[category];
+    averages[category] = total / count;
+  }
+
+  return averages;
+}
