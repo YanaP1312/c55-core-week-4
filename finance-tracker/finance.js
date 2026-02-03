@@ -132,3 +132,45 @@ function getFirstCharacterToUp(word) {
   if (!word) return '';
   return word[0].toUpperCase() + word.slice(1);
 }
+
+//Bonus Challenges functions
+
+export function searchTransactionsByDate(transactions, startDate, endDate) {
+  const sorted = transactions
+    .slice()
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  const startIndex = sorted.findIndex(
+    (transaction) => transaction.date >= startDate
+  );
+  const endIndex = sorted.findIndex(
+    (transaction) => transaction.date > endDate
+  );
+
+  const range = sorted.slice(
+    startIndex,
+    endIndex === -1 ? sorted.length : endIndex
+  );
+
+  return range;
+}
+
+export function groupTransactionByMonth(transactions) {
+  let groupedTransactions = {};
+
+  for (const transaction of transactions) {
+    const [year, month] = transaction.date.split('-');
+
+    if (!groupedTransactions[year]) {
+      groupedTransactions[year] = {};
+    }
+
+    if (!groupedTransactions[year][month]) {
+      groupedTransactions[year][month] = [];
+    }
+
+    groupedTransactions[year][month].push(transaction);
+  }
+
+  return groupedTransactions;
+}

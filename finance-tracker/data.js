@@ -62,7 +62,7 @@ const transactions = [
     category: 'health',
     amount: 90,
     description: 'Doctor appointment',
-    date: '2025-01-24',
+    date: '2025-02-24',
   },
   {
     id: 9,
@@ -70,7 +70,7 @@ const transactions = [
     category: 'education',
     amount: 300,
     description: 'Online course fee',
-    date: '2025-01-25',
+    date: '2025-03-25',
   },
 ];
 
