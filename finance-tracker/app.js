@@ -3,32 +3,58 @@
 import {
   addTransaction,
   calculateAverageExpensesPerCategory,
+  findConsecutiveExpensiveMonth,
   getTransactionsByCategory,
   groupTransactionByMonth,
   printGeneralReport,
-  searchTransactionsByDate,
+  removeTransactions,
+  searchTransactionsByDateRange,
 } from './finance.js';
 import transactions from './data.js';
 
-console.log(
-  addTransaction(
-    'expense',
-    'groceries',
-    98,
-    'Weekly supermarket shopping',
-    '2026-01-25'
-  )
+const newTransaction = addTransaction(
+  'expense',
+  'groceries',
+  98,
+  'Weekly supermarket shopping',
+  '2026-01-25'
 );
 
-// console.log(getTransactionsByCategory(transactions, 'groceries'));
+const transactionByCategory = getTransactionsByCategory(
+  transactions,
+  'groceries'
+);
 
-// console.log(printGeneralReport(transactions));
+const financeReport = printGeneralReport(transactions);
+
+console.log(newTransaction, transactionByCategory, financeReport);
 
 //Bonus Challenges output
-// console.log(searchTransactionsByDate(transactions, '2025-01-22', '2025-02-24'));
+const transactionsByDateRange = searchTransactionsByDateRange(
+  transactions,
+  '2025-01-22',
+  '2025-02-24'
+);
 
 // Node.js collapses nested objects inside arrays and prints them as [Object]. To see the full structure, I use JSON.stringify(). The second argument (null)means no custom replacer, and the third argument (2) adds indentation for readability.
 
-// console.log(JSON.stringify(groupTransactionByMonth(transactions), null, 2));
+const transactionsGroupByMonth = JSON.stringify(
+  groupTransactionByMonth(transactions),
+  null,
+  2
+);
 
-// console.log(calculateAverageExpensesPerCategory(transactions));
+const averageExpensesPerCategory =
+  calculateAverageExpensesPerCategory(transactions);
+
+const arrayWithoutRemoveTransaction = removeTransactions(transactions, 3);
+
+const consecutiveExpensiveMonths = findConsecutiveExpensiveMonth(transactions);
+
+console.log(
+  transactionsByDateRange,
+  transactionsGroupByMonth,
+  averageExpensesPerCategory,
+  arrayWithoutRemoveTransaction,
+  consecutiveExpensiveMonths
+);

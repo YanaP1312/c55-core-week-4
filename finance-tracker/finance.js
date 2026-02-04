@@ -17,7 +17,7 @@ export function addTransaction(type, category, amount, description, date) {
 
   transactions.push(newTransaction);
 
-  return updated;
+  return newTransaction;
 }
 
 export function getTotalIncome(transactions) {
@@ -61,9 +61,8 @@ export function getTransactionsByCategory(transactions, category) {
 }
 
 export function getLargestExpense(transactions) {
-  const expenseTransactions = transactions.filter(
-    (transaction) => transaction.type === 'expense'
-  );
+  //I moved the logic for filtering "expense" transactions into a separate function, because this code is reused in several bonus tasks.
+  const expenseTransactions = getExpenseTransactions(transactions);
 
   let largest = expenseTransactions[0];
 
@@ -128,14 +127,14 @@ export function printGeneralReport(transactions) {
   return `💰 ${chalk.bold('personal finance tracker'.toUpperCase())} 💰\n\n${allTransactions}\n${summary}`;
 }
 
-function getFirstCharacterToUp(word) {
-  if (!word) return '';
-  return word[0].toUpperCase() + word.slice(1);
-}
-
 //Bonus Challenges functions
 
-export function searchTransactionsByDate(transactions, startDate, endDate) {
+//Search transactions by date range using slice
+export function searchTransactionsByDateRange(
+  transactions,
+  startDate,
+  endDate
+) {
   const sorted = transactions
     .slice()
     .sort((a, b) => a.date.localeCompare(b.date));
@@ -155,6 +154,7 @@ export function searchTransactionsByDate(transactions, startDate, endDate) {
   return range;
 }
 
+//Group transactions by month using nested objects
 export function groupTransactionByMonth(transactions) {
   let groupedTransactions = {};
 
@@ -175,10 +175,9 @@ export function groupTransactionByMonth(transactions) {
   return groupedTransactions;
 }
 
+//Calculate average expense per category
 export function calculateAverageExpensesPerCategory(transactions) {
-  const expenses = transactions.filter(
-    (transaction) => transaction.type === 'expense'
-  );
+  const expenses = getExpenseTransactions(transactions);
 
   let expenseCategories = {};
 
@@ -197,8 +196,89 @@ export function calculateAverageExpensesPerCategory(transactions) {
 
   for (const category in expenseCategories) {
     const { total, count } = expenseCategories[category];
-    averages[category] = total / count;
+    averages[category] = Number((total / count).toFixed(2));
   }
 
   return averages;
+}
+
+//Add ability to remove transactions by id
+export function removeTransactions(transactions, id) {
+  const newTransactions = transactions.filter(
+    (transaction) => transaction.id !== id
+  );
+  return newTransactions;
+}
+
+//Create a function that finds consecutive expensive months (use while loop)
+//Use multi-line commenting to explain your most complex function
+
+/* This function returns a list of months where expenses increase consecutively.
+  It follows these steps:
+
+  1. It filters all transactions using getExpenseTransactions() to keep only those with type "expense".
+
+  2. It creates an empty object (monthlyTotal) to store total expenses per month.
+
+  3. It iterates through all expense transactions. For each one:
+    - extracts the date and amount,
+    - derives the month in "YYYY-MM" format using slice(),
+    - initializes monthlyTotal[month] to 0 if it doesn't exist yet,
+    - adds the transaction amount to that month's total.
+
+  4. It collects all month keys from monthlyTotal and sorts them to ensure chronological comparison.
+
+  5. It prepares a while loop index (i) and an empty result array.
+
+  6. Using a while loop, it compares each month with the next one.
+    If the next month has a higher total expense than the current month:
+      - it adds the current month to the result (only if not already included),
+      - it always adds the next month.
+    This builds a sequence of months with increasing expenses.
+
+  7. After the loop finishes, it returns the result array containing all months that form consecutive increasing expense periods. */
+
+export function findConsecutiveExpensiveMonth(transactions) {
+  const expenses = getExpenseTransactions(transactions);
+  const monthlyTotal = {};
+
+  for (const transaction of expenses) {
+    const { date, amount } = transaction;
+    const month = date.slice(0, 7);
+
+    if (!monthlyTotal[month]) monthlyTotal[month] = 0;
+    monthlyTotal[month] += amount;
+  }
+
+  const months = Object.keys(monthlyTotal).sort();
+
+  let i = 0;
+  const result = [];
+
+  while (i < months.length - 1) {
+    const current = months[i];
+    const next = months[i + 1];
+
+    if (monthlyTotal[current] < monthlyTotal[next]) {
+      if (!result.includes(current)) result.push(current);
+      result.push(next);
+    }
+    i++;
+  }
+
+  return result;
+}
+
+//reused functions
+
+function getExpenseTransactions(transactions) {
+  const expenses = transactions.filter(
+    (transaction) => transaction.type === 'expense'
+  );
+  return expenses;
+}
+
+function getFirstCharacterToUp(word) {
+  if (!word) return '';
+  return word[0].toUpperCase() + word.slice(1);
 }
