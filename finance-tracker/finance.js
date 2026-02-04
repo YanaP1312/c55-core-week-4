@@ -1,20 +1,8 @@
 import transactions from './data.js';
 import chalk from 'chalk';
 
-export function addTransaction(type, category, amount, description, date) {
-  const newTransaction = {
-    id: transactions.length + 1,
-    type,
-    category,
-    amount,
-    description,
-    date,
-  };
-
-  // The assignment requires using the spread operator when adding a transaction. In this task, mutating the existing array with push() feels more suitable, and that is the approach I would normally use if there were no requirement. To satisfy the task while keeping the logic I prefer, I include both: spread for the assignment, and push() for the actual update.
-
-  const updated = [...transactions, newTransaction];
-
+export function addTransaction(transaction) {
+  const newTransaction = { ...transaction };
   transactions.push(newTransaction);
 
   return newTransaction;

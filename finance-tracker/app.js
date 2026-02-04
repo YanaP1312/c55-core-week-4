@@ -12,22 +12,23 @@ import {
 } from './finance.js';
 import transactions from './data.js';
 
-const newTransaction = addTransaction(
-  'expense',
-  'groceries',
-  98,
-  'Weekly supermarket shopping',
-  '2026-01-25'
-);
+const newTransaction = addTransaction({
+  id: 31,
+  type: 'expense',
+  category: 'groceries',
+  amount: 98,
+  description: 'Weekly supermarket shopping',
+  date: '2026-01-25',
+});
 
-const transactionByCategory = getTransactionsByCategory(
+const transactionsByCategory = getTransactionsByCategory(
   transactions,
   'groceries'
 );
 
 const financeReport = printGeneralReport(transactions);
 
-console.log(newTransaction, transactionByCategory, financeReport);
+console.log(newTransaction, transactionsByCategory, financeReport);
 
 //Bonus Challenges output
 const transactionsByDateRange = searchTransactionsByDateRange(
@@ -38,7 +39,7 @@ const transactionsByDateRange = searchTransactionsByDateRange(
 
 // Node.js collapses nested objects inside arrays and prints them as [Object]. To see the full structure, I use JSON.stringify(). The second argument (null)means no custom replacer, and the third argument (2) adds indentation for readability.
 
-const transactionsGroupByMonth = JSON.stringify(
+const transactionsGroupedByMonth = JSON.stringify(
   groupTransactionByMonth(transactions),
   null,
   2
@@ -47,14 +48,14 @@ const transactionsGroupByMonth = JSON.stringify(
 const averageExpensesPerCategory =
   calculateAverageExpensesPerCategory(transactions);
 
-const arrayWithoutRemoveTransaction = removeTransactions(transactions, 3);
+const remainingTransactions = removeTransactions(transactions, 3);
 
 const consecutiveExpensiveMonths = findConsecutiveExpensiveMonth(transactions);
 
 console.log(
   transactionsByDateRange,
-  transactionsGroupByMonth,
+  transactionsGroupedByMonth,
   averageExpensesPerCategory,
-  arrayWithoutRemoveTransaction,
+  remainingTransactions,
   consecutiveExpensiveMonths
 );
