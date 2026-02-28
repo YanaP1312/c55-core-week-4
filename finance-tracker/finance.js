@@ -94,16 +94,13 @@ export function printSummary(transactions) {
   const totalExpenses = chalk.bold.red(getTotalExpenses(transactions));
   const numOfTransactions = chalk.bold(transactions.length);
 
-  const balance =
-    getBalance(transactions) >= 0
-      ? chalk.bold.cyan(getBalance(transactions))
-      : chalk.bold.red(getBalance(transactions));
+  const balance = getBalance(transactions);
 
   const { amount, description } = getLargestExpense(transactions);
   const largestExpense = chalk.bold(amount);
 
   //collect summary
-  const summary = `📊 ${chalk.bold('financial summary'.toUpperCase())} 📊 \nTotal Income: €${totalIncome}\nTotal Expenses: €${totalExpenses}\nCurrent Balance: €${balance}\n\nLargest Expense: ${description} (€${largestExpense})\nTotal Transactions: ${numOfTransactions}`;
+  const summary = `📊 ${chalk.bold('financial summary'.toUpperCase())} 📊 \nTotal Income: €${totalIncome}\nTotal Expenses: €${totalExpenses}\nCurrent Balance: €${balance > 0 ? chalk.bold.cyan(balance) : chalk.bold.red(balance)}\n\nLargest Expense: ${description} (€${largestExpense})\nTotal Transactions: ${numOfTransactions}`;
 
   return summary;
 }
